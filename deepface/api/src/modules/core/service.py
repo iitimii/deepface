@@ -86,3 +86,57 @@ def analyze(
     except Exception as err:
         tb_str = traceback.format_exc()
         return {"error": f"Exception while analyzing: {str(err)} - {tb_str}"}, 400
+
+
+def extract_faces(
+    img_path: str,
+    detector_backend: str,
+    enforce_detection: bool,
+    align: bool,
+    anti_spoofing: bool
+):
+    try:
+        result = {}
+        faces_objs = DeepFace.extract_faces(
+            img_path=img_path,
+            detector_backend=detector_backend,
+            enforce_detection=enforce_detection,
+            align=align,
+            anti_spoofing=anti_spoofing
+        )
+
+        result["results"] = faces_objs
+        return result
+
+    except Exception as err:
+        tb_str = traceback.format_exc()
+        return {"error": f"Exception while verifying: {str(err)} - {tb_str}"}, 400
+
+def find(
+        img_path: str , db_path: str, 
+            model_name: str = "VGG-Face", 
+            distance_metric: str = "cosine", 
+            enforce_detection: bool = True, 
+            detector_backend: str = "opencv", 
+            align: bool = True, 
+            anti_spoofing: bool = False
+):
+    try:
+        result = {}
+        faces_objs = DeepFace.find(
+            img_path=img_path, db_path=db_path, 
+            model_name=model_name, 
+            distance_metric=distance_metric, 
+            enforce_detection=enforce_detection, 
+            detector_backend=detector_backend, 
+            align=align, 
+            anti_spoofing=anti_spoofing
+        )
+
+        result["results"] = faces_objs
+        return result
+
+    except Exception as err:
+        tb_str = traceback.format_exc()
+        return {"error": f"Exception while verifying: {str(err)} - {tb_str}"}, 400
+
